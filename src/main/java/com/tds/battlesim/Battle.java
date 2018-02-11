@@ -15,14 +15,14 @@ public class Battle {
 	public void simulate() {
 		while( shouldContinue() ) {
 			//b.shortRangeArcheryAttackValue * b.currentStrengthPct() / a.getDefense() * b.getAttackValueMultiplierForCurrentPhase();
-			int aSideDamageCaused = this.aSide.getAttackValue() / this.anotherSide.getDefenseValue();
-			int otherSideDamageCaused = this.anotherSide.getAttackValue() / this.aSide.getDefenseValue();
+			double aSideDamageCaused = Math.random() * this.aSide.getAttackValue() / this.anotherSide.getDefenseValue();
+			double otherSideDamageCaused = Math.random() * this.anotherSide.getAttackValue() / this.aSide.getDefenseValue();
 			
 			this.aSide.sufferDamage( otherSideDamageCaused );
 			this.anotherSide.sufferDamage( aSideDamageCaused );
 			
-			System.out.println( "After this round, aSide troops remaining:  " + aSide.size() );
-			System.out.println( "After this round, other side troops remaining:  " + anotherSide.size() );
+			System.out.println( "After this round, " + aSide + " troops remaining:  " + aSide.size() );
+			System.out.println( "After this round, " + anotherSide + " troops remaining:  " + anotherSide.size() );
 		}
 	}
 	
