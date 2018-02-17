@@ -6,7 +6,7 @@ public class Side {
 	public static Side LARGE = new Side( "Large Side", 500 );
 	
 	private String name;
-	private int troopCount;
+	private Troops troops;
 	private double retreatThreashhold;
 	
 	/**
@@ -21,10 +21,11 @@ public class Side {
 		this( "No name", troops );
 	}
 	
-	public Side( String name, int troops ) {
+	public Side( String name, int numberOfTroops ) {
 		this.name = name;
-		this.troopCount = troops;
-		this.startingSize = troops;
+		troops = new Troops();
+		troops.setCount( numberOfTroops );
+		this.startingSize = numberOfTroops;
 	}
 	
 	public boolean isRetreating() {
@@ -36,7 +37,7 @@ public class Side {
 	}
 	
 	public int getAttackValue() {
-		return this.troopCount;
+		return troops.getCount();
 	}
 	
 	public int getDefenseValue() {
@@ -44,11 +45,11 @@ public class Side {
 	}
 	
 	public void sufferDamage( double damage ) {
-		this.troopCount = this.troopCount - (int)damage;
+		troops.setCount( troops.getCount() - (int)damage );
 	}
 	
 	public int size() {
-		return this.troopCount;
+		return troops.getCount();
 	}
 	
 	public String toString() {
