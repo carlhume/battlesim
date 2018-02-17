@@ -19,6 +19,15 @@ public class SideTest {
 	}
 	
 	@Test
+	public void testSideRetreatsWhenThereAreFewerTroopsThanTheRetreatThreashhold() {
+		Side side = new Side( 1000 );
+		side.setRetreatThreashhold( 0.5 );
+		assertFalse( side.isRetreating() );
+		side.sufferDamage( side.size() * side.getRetreatThreashhold() + 1 );
+		assertTrue( side.isRetreating() );
+	}
+	
+	@Test
 	public void testEachPointOfDamageDirectlyRemovesATroop() {
 		Side side = new Side( 50 );
 		side.sufferDamage( 5 );

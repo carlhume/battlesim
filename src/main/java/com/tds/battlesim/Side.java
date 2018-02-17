@@ -7,6 +7,13 @@ public class Side {
 	
 	private String name;
 	private int troopCount;
+	private double retreatThreashhold;
+	
+	/**
+	 * Stores how many troops were available at the start of the battle
+	 * Used to help determine when a side will want to retreat
+	 */
+	private transient int startingSize = 0;
 	
 	public Side() {}
 	
@@ -17,10 +24,15 @@ public class Side {
 	public Side( String name, int troops ) {
 		this.name = name;
 		this.troopCount = troops;
+		this.startingSize = troops;
 	}
 	
 	public boolean isRetreating() {
-		return this.troopCount <= 0;
+		return size() <= troopsThatCanBeLostBeforeSideWantsToRetreat();
+	}
+
+	private double troopsThatCanBeLostBeforeSideWantsToRetreat() {
+		return this.startingSize * getRetreatThreashhold();
 	}
 	
 	public int getAttackValue() {
@@ -42,4 +54,13 @@ public class Side {
 	public String toString() {
 		return this.name;
 	}
+
+	public double getRetreatThreashhold() {
+		return retreatThreashhold;
+	}
+
+	public void setRetreatThreashhold(double retreatThreashhold) {
+		this.retreatThreashhold = retreatThreashhold;
+	}
+
 }

@@ -8,7 +8,8 @@ public class BattleSim {
 	
 	public static void main( String [] args ) {
 		BattleSim battleSim = new BattleSim();
-		Side side = new Side( "First Side", 100 );		
+		Side side = new Side( "First Side", 100 );
+		side.setRetreatThreashhold( 0.9 );
 		Side anotherSide = new Side( "Second Side", 100 );
 		Battle battle = new Battle( side, anotherSide );
 		battleSim.simulate( battle );
