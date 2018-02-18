@@ -44,10 +44,10 @@ public class Side {
 		return this.startingSize * getRetreatThreashhold();
 	}
 	
-	public int getAttackValue() {
-		int attackValue = 0;
+	public double getAttackValue() {
+		double attackValue = 0;
 		for( Troops someTroops : troops ) {
-			attackValue = attackValue + someTroops.getCount();
+			attackValue = attackValue + someTroops.getAttackPower();
 		}
 		return attackValue;
 	}
