@@ -1,12 +1,15 @@
 package com.tds.battlesim;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 public class Side {
 
 	public static Side SMALL = new Side( "Small Side", 50 );
 	public static Side LARGE = new Side( "Large Side", 500 );
 	
 	private String name;
-	private Troops troops;
+	private Collection<Troops> troops = new ArrayList<Troops>();
 	private double retreatThreashhold;
 	
 	/**
@@ -23,9 +26,14 @@ public class Side {
 	
 	public Side( String name, int numberOfTroops ) {
 		this.name = name;
-		troops = new Troops();
-		troops.setCount( numberOfTroops );
+		Troops newTroops = new Troops();
+		newTroops.setCount( numberOfTroops );
+		addTroops( newTroops );
 		this.startingSize = numberOfTroops;
+	}
+	
+	public void addTroops( Troops troopsToAdd ) {
+		troops.add( troopsToAdd );
 	}
 	
 	public boolean isRetreating() {
@@ -37,7 +45,11 @@ public class Side {
 	}
 	
 	public int getAttackValue() {
-		return troops.getCount();
+		int attackValue = 0;
+		for( Troops someTroops : troops ) {
+			attackValue = attackValue + someTroops.getCount();
+		}
+		return attackValue;
 	}
 	
 	public int getDefenseValue() {
@@ -45,11 +57,27 @@ public class Side {
 	}
 	
 	public void sufferDamage( double damage ) {
-		troops.setCount( troops.getCount() - (int)damage );
+		for( Troops someTroops : troops ) {		
+			someTroops.setCount( someTroops.getCount() 
+					- calculateDamageToApplyToEachTroopType( damage ) );
+		}
+	}
+
+	/**
+	 * Damage is applied evenly to all different troop types that make up the side.
+	 * @param damage
+	 * @return
+	 */
+	private int calculateDamageToApplyToEachTroopType(double damage) {
+		return (int)damage / troops.size();
 	}
 	
 	public int size() {
-		return troops.getCount();
+		int size = 0;
+		for( Troops someTroops : troops ) {
+			size = size + someTroops.getCount();
+		}
+		return size;
 	}
 	
 	public String toString() {

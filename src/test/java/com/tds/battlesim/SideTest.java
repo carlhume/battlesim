@@ -34,4 +34,35 @@ public class SideTest {
 		assertEquals( 45, side.size() );
 	}
 	
+	@Test
+	public void testDamageRemovesTroopsAcrossAllTypes() {
+		Troops troops = new Troops();
+		troops.setCount( 50 );
+		
+		Troops otherTroops = new Troops();
+		otherTroops.setCount( 50 );
+		
+		Side side = new Side();
+		side.addTroops( troops );
+		side.addTroops( otherTroops );
+		side.sufferDamage( 10 );
+		
+		assertEquals( 45, troops.getCount() );
+		assertEquals( 45, otherTroops.getCount() );
+	}
+	
+	@Test
+	public void testUsingTwoDifferentTypesOfTroopsAddsSizeCorrectly() {		
+		Troops troops = new Troops();
+		troops.setCount( 50 );
+		
+		Troops otherTroops = new Troops();
+		otherTroops.setCount( 50 );
+		
+		Side side = new Side();
+		side.addTroops( troops );
+		side.addTroops( otherTroops );
+		assertEquals( "Size is not calculated correctly with multiple troop types", 100, side.size() );
+	}
+	
 }
