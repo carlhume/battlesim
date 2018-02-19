@@ -5,9 +5,11 @@ public class Troops {
 	private String name;
 	private int count;
 	private double attackPowerPerTroop;
+	private double toughnessPerTroop;
 	
 	public Troops() {
 		setAttackPowerPerTroop( 1 );
+		setToughnessPerTroop( 1 );
 	}
 	
 	public double getAttackPower() {
@@ -36,6 +38,14 @@ public class Troops {
 
 	public void setAttackPowerPerTroop(double attackPowerPerTroop) {
 		this.attackPowerPerTroop = attackPowerPerTroop;
+	}
+
+	public double getToughnessPerTroop() {
+		return toughnessPerTroop;
+	}
+
+	public void setToughnessPerTroop(double toughness) {
+		this.toughnessPerTroop = toughness;
 	}
 
 }

@@ -81,4 +81,22 @@ public class SideTest {
 		assertEquals( "Attack power is not calculated correctly with multiple troop types", 150, side.getAttackValue(), 0 );
 	}
 	
+	@Test
+	public void testToughnessIsAveragedFromDifferentTroopTypes() {
+		Troops troops = new Troops();
+		troops.setCount( 50 );
+		troops.setAttackPowerPerTroop( 1 );
+		troops.setToughnessPerTroop( 2 );
+		
+		Troops otherTroops = new Troops();
+		otherTroops.setCount( 50 );
+		otherTroops.setAttackPowerPerTroop( 2 );
+		otherTroops.setToughnessPerTroop( 4 );
+		
+		Side side = new Side();
+		side.addTroops( troops );
+		side.addTroops( otherTroops );
+		assertEquals( "Toughness should be an average", 3, side.getAverageToughness(), 0 );
+	}
+	
 }

@@ -15,8 +15,8 @@ public class Battle {
 	public void simulate() {
 		while( shouldContinue() ) {
 			//b.shortRangeArcheryAttackValue * b.currentStrengthPct() / a.getDefense() * b.getAttackValueMultiplierForCurrentPhase();
-			double aSideDamageCaused = Math.random() * this.aSide.getAttackValue() / this.anotherSide.getDefenseValue();
-			double anotherSideDamageCaused = Math.random() * this.anotherSide.getAttackValue() / this.aSide.getDefenseValue();
+			double aSideDamageCaused = Math.random() * this.aSide.getAttackValue() / this.anotherSide.getAverageToughness();
+			double anotherSideDamageCaused = Math.random() * this.anotherSide.getAttackValue() / this.aSide.getAverageToughness();
 			
 			this.aSide.sufferDamage( anotherSideDamageCaused );
 			this.anotherSide.sufferDamage( aSideDamageCaused );

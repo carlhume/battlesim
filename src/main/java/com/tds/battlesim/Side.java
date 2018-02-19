@@ -52,8 +52,12 @@ public class Side {
 		return attackValue;
 	}
 	
-	public int getDefenseValue() {
-		return 2;
+	public double getAverageToughness() {
+		double toughness = 0;
+		for( Troops someTroops : troops ) {
+			toughness = toughness + someTroops.getToughnessPerTroop();
+		}
+		return toughness / troops.size();
 	}
 	
 	public void sufferDamage( double damage ) {
@@ -90,6 +94,14 @@ public class Side {
 
 	public void setRetreatThreashhold(double retreatThreashhold) {
 		this.retreatThreashhold = retreatThreashhold;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }
