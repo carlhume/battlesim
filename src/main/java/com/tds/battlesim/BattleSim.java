@@ -11,11 +11,12 @@ public class BattleSim {
 		Side side = new Side();
 		side.setName( "First Side" );
 		Troops troopsForSide = new Troops();
-		troopsForSide.setCount( 100 );
-		troopsForSide.setDamageDealtPerTroop( 1 );
+		troopsForSide.setCount( 1000 );
+		troopsForSide.setDamageDealtPerTroop( 10 );
+		troopsForSide.setHitPointsPerTroop( 10 );
 		side.addTroops( troopsForSide );
 		
-		Side anotherSide = new Side( "Second Side", 100 );
+		Side anotherSide = new Side( "Second Side", 10000 );
 		Battle battle = new Battle( side, anotherSide );
 		battleSim.simulate( battle );
 	}
