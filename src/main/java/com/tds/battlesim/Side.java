@@ -61,9 +61,9 @@ public class Side {
 	}
 	
 	public void sufferDamage( double damage ) {
-		for( Troops someTroops : troops ) {		
-			someTroops.setCount( someTroops.getCount() 
-					- calculateDamageToApplyToEachTroopType( damage ) );
+		double damageToInflictOnEachSetOfTroops = calculateDamageToApplyToEachTroopType( damage );
+		for( Troops someTroops : troops ) {
+			someTroops.sufferDamage( damageToInflictOnEachSetOfTroops );
 		}
 	}
 
@@ -73,8 +73,8 @@ public class Side {
 	 * @param damage
 	 * @return
 	 */
-	private int calculateDamageToApplyToEachTroopType(double damage) {
-		return (int)damage / troops.size();
+	private double calculateDamageToApplyToEachTroopType(double damage) {
+		return damage / troops.size();
 	}
 	
 	public int size() {

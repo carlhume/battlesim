@@ -12,7 +12,7 @@ public class BattleSim {
 		side.setName( "First Side" );
 		Troops troopsForSide = new Troops();
 		troopsForSide.setCount( 100 );
-		troopsForSide.setDamageDealtPerTroop( 2 );
+		troopsForSide.setDamageDealtPerTroop( 1 );
 		side.addTroops( troopsForSide );
 		
 		Side anotherSide = new Side( "Second Side", 100 );

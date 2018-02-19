@@ -6,10 +6,12 @@ public class Troops {
 	private int count;
 	private double damageDealtPerTroop;
 	private double toughnessPerTroop;
+	private double hitPointsPerTroop;
 	
 	public Troops() {
 		setDamageDealtPerTroop( 1 );
 		setToughnessPerTroop( 1 );
+		setHitPointsPerTroop( 1 );
 	}
 	
 	/**
@@ -18,6 +20,15 @@ public class Troops {
 	 */
 	public double getAttackPower() {
 		return getDamageDealtPerTroop() * getCount();
+	}
+	
+	public void sufferDamage( double damage ) {
+		int troopsKilled = (int)(damage / getHitPointsPerTroop());
+		reduceTroopCountBy( troopsKilled );
+	}
+	
+	private void reduceTroopCountBy( int number ) {
+		setCount( getCount() - number );
 	}
 	
 	public String getName() {
@@ -50,6 +61,14 @@ public class Troops {
 
 	public void setToughnessPerTroop(double toughness) {
 		this.toughnessPerTroop = toughness;
+	}
+
+	public double getHitPointsPerTroop() {
+		return hitPointsPerTroop;
+	}
+
+	public void setHitPointsPerTroop(double hitPointsPerTroop) {
+		this.hitPointsPerTroop = hitPointsPerTroop;
 	}
 
 }

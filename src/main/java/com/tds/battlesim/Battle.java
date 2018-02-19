@@ -12,6 +12,7 @@ public class Battle {
 		this.anotherSide = anotherCombatant;
 	}
 	
+	
 	public void simulate() {
 		while( shouldContinue() ) {
 			//b.shortRangeArcheryAttackValue * b.currentStrengthPct() / a.getDefense() * b.getAttackValueMultiplierForCurrentPhase();
