@@ -69,11 +69,11 @@ public class SideTest {
 	public void testUsingTwoDifferentTypesOfTroopsDeterminesAttackValueUsingBoth() {		
 		Troops troops = new Troops();
 		troops.setCount( 50 );
-		troops.setAttackPowerPerTroop( 1 );
+		troops.setDamageDealtPerTroop( 1 );
 		
 		Troops otherTroops = new Troops();
 		otherTroops.setCount( 50 );
-		otherTroops.setAttackPowerPerTroop( 2 );
+		otherTroops.setDamageDealtPerTroop( 2 );
 		
 		Side side = new Side();
 		side.addTroops( troops );
@@ -85,12 +85,12 @@ public class SideTest {
 	public void testToughnessIsAveragedFromDifferentTroopTypes() {
 		Troops troops = new Troops();
 		troops.setCount( 50 );
-		troops.setAttackPowerPerTroop( 1 );
+		troops.setDamageDealtPerTroop( 1 );
 		troops.setToughnessPerTroop( 2 );
 		
 		Troops otherTroops = new Troops();
 		otherTroops.setCount( 50 );
-		otherTroops.setAttackPowerPerTroop( 2 );
+		otherTroops.setDamageDealtPerTroop( 2 );
 		otherTroops.setToughnessPerTroop( 4 );
 		
 		Side side = new Side();

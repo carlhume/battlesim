@@ -4,16 +4,20 @@ public class Troops {
 
 	private String name;
 	private int count;
-	private double attackPowerPerTroop;
+	private double damageDealtPerTroop;
 	private double toughnessPerTroop;
 	
 	public Troops() {
-		setAttackPowerPerTroop( 1 );
+		setDamageDealtPerTroop( 1 );
 		setToughnessPerTroop( 1 );
 	}
 	
+	/**
+	 * Attack power maps to the damage done by this troop type	
+	 * @return
+	 */
 	public double getAttackPower() {
-		return getAttackPowerPerTroop() * getCount();
+		return getDamageDealtPerTroop() * getCount();
 	}
 	
 	public String getName() {
@@ -32,12 +36,12 @@ public class Troops {
 		this.count = count;
 	}
 
-	public double getAttackPowerPerTroop() {
-		return attackPowerPerTroop;
+	public double getDamageDealtPerTroop() {
+		return damageDealtPerTroop;
 	}
 
-	public void setAttackPowerPerTroop(double attackPowerPerTroop) {
-		this.attackPowerPerTroop = attackPowerPerTroop;
+	public void setDamageDealtPerTroop(double attackPowerPerTroop) {
+		this.damageDealtPerTroop = attackPowerPerTroop;
 	}
 
 	public double getToughnessPerTroop() {

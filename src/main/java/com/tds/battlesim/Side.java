@@ -69,6 +69,7 @@ public class Side {
 
 	/**
 	 * Damage is applied evenly to all different troop types that make up the side.
+	 * 
 	 * @param damage
 	 * @return
 	 */
