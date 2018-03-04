@@ -15,18 +15,26 @@ public class Battle {
 	
 	public void simulate() {
 		while( shouldContinue() ) {
-			//b.shortRangeArcheryAttackValue * b.currentStrengthPct() / a.getDefense() * b.getAttackValueMultiplierForCurrentPhase();
-			double aSideDamageCaused = Math.random() * this.aSide.getAttackValue() / this.anotherSide.getAverageToughness();
-			double anotherSideDamageCaused = Math.random() * this.anotherSide.getAttackValue() / this.aSide.getAverageToughness();
-			
-			this.aSide.sufferDamage( anotherSideDamageCaused );
-			this.anotherSide.sufferDamage( aSideDamageCaused );
-			
-			System.out.println( "After this round, " + aSide + " troops remaining:  " + aSide.size() );
-			System.out.println( "After this round, " + anotherSide + " troops remaining:  " + anotherSide.size() );
+			RoundResults roundResults = simulateRound();
+			System.out.println( roundResults );
 		}
 		
 		disaplySideThatIsRetreating();
+	}
+
+	private RoundResults simulateRound() {
+		RoundResults results = new RoundResults( aSide, anotherSide );
+
+		double aSideDamageCaused = Math.random() * this.aSide.getAttackValue() / this.anotherSide.getAverageToughness();
+		double anotherSideDamageCaused = Math.random() * this.anotherSide.getAttackValue() / this.aSide.getAverageToughness();
+		
+		this.aSide.sufferDamage( anotherSideDamageCaused );
+		this.anotherSide.sufferDamage( aSideDamageCaused );
+		
+		results.setSideDamageCaused( aSideDamageCaused );
+		results.setAnotherSideDamageCaused( anotherSideDamageCaused );
+		
+		return results;
 	}
 	
 	public boolean shouldContinue() {
