@@ -48,7 +48,7 @@ public class BattleTest {
 		assertEquals( "The battle did not report the retreating side as we expected", retreatingSide, subscriber.retreatingSide );		
 	}
 
-	private class RoundResultsTestSubscriber implements RoundResultsSubscriber {
+	private class RoundResultsTestSubscriber implements BattleResultsSubscriber {
 
 		private int resultsReceivedCount = 0;
 		private Side retreatingSide;

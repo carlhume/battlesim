@@ -3,11 +3,11 @@ package com.tds.battlesim;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class Battle implements RoundResultsPublisher {
+public class Battle implements BattleResultsPublisher {
 
 	private Side aSide;
 	private Side anotherSide;
-	private Collection<RoundResultsSubscriber> roundResutlsSubscribers = new ArrayList<RoundResultsSubscriber>();
+	private Collection<BattleResultsSubscriber> roundResutlsSubscribers = new ArrayList<BattleResultsSubscriber>();
 	
 	public Battle() {}
 	
@@ -50,8 +50,8 @@ public class Battle implements RoundResultsPublisher {
 		publishSideThatIsRetreating(sideThatIsRetreating);
 	}	
 
-	private void publishSideThatIsRetreating(Side sideThatIsRetreating) {
-		for( RoundResultsSubscriber roundResultsSubscriber : roundResutlsSubscribers ) {
+	public void publishSideThatIsRetreating(Side sideThatIsRetreating) {
+		for( BattleResultsSubscriber roundResultsSubscriber : roundResutlsSubscribers ) {
 			roundResultsSubscriber.sideIsRetreating( sideThatIsRetreating );
 		}
 	}
@@ -70,13 +70,13 @@ public class Battle implements RoundResultsPublisher {
 	}
 
 	@Override
-	public void publishRoundResultsTo(RoundResultsSubscriber subscriber) {
+	public void publishRoundResultsTo(BattleResultsSubscriber subscriber) {
 		roundResutlsSubscribers.add( subscriber );
 	}
 
 	@Override
 	public void publishRoundResults(RoundResults results) {
-		for( RoundResultsSubscriber roundResultsSubscriber : roundResutlsSubscribers ) {
+		for( BattleResultsSubscriber roundResultsSubscriber : roundResutlsSubscribers ) {
 			roundResultsSubscriber.receiveRoundResults( results );
 		}
 	}

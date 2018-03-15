@@ -22,7 +22,7 @@ public class BattleSim {
 		battleSim.simulate( battle );
 	}
 		
-	private static class RoundResultsReporter implements RoundResultsSubscriber {
+	private static class RoundResultsReporter implements BattleResultsSubscriber {
 
 		@Override
 		public void receiveRoundResults(RoundResults results) {
