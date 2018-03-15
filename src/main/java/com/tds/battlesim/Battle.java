@@ -22,7 +22,7 @@ public class Battle implements RoundResultsPublisher {
 			publishRoundResults( roundResults );
 		}
 		
-		disaplySideThatIsRetreating();
+		publishSideThatIsRetreating();
 	}
 
 	private RoundResults simulateRound() {
@@ -45,13 +45,28 @@ public class Battle implements RoundResultsPublisher {
 				this.anotherSide.isRetreating() == false;
 	}
 	
-	private void disaplySideThatIsRetreating() {
+	private void publishSideThatIsRetreating() {		
+		Side sideThatIsRetreating = findSideThatIsRetreating();			
+		publishSideThatIsRetreating(sideThatIsRetreating);
+	}	
+
+	private void publishSideThatIsRetreating(Side sideThatIsRetreating) {
+		for( RoundResultsSubscriber roundResultsSubscriber : roundResutlsSubscribers ) {
+			roundResultsSubscriber.sideIsRetreating( sideThatIsRetreating );
+		}
+	}
+
+	private Side findSideThatIsRetreating() {
+		// >> cnh >> Risk of Returning Null 
+		// TODO: Refactor
+		Side sideThatIsRetreating = null;
 		if( aSide.isRetreating() ) {
-			System.out.println( "After this round, " + aSide + " is retreating from battle" );
+			sideThatIsRetreating = aSide;
 		}
 		if( anotherSide.isRetreating() ) {
-			System.out.println( "After this round, " + anotherSide + " is retreating from battle" );
+			sideThatIsRetreating = anotherSide;
 		}
+		return sideThatIsRetreating;
 	}
 
 	@Override

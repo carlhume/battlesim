@@ -28,6 +28,11 @@ public class BattleSim {
 		public void receiveRoundResults(RoundResults results) {
 			System.out.println( results );
 		}
+
+		@Override
+		public void sideIsRetreating(Side side) {
+			System.out.println( "After this round, " + side + " is retreating from battle" );
+		}
 		
 	}
 }
