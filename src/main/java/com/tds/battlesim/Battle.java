@@ -1,9 +1,13 @@
 package com.tds.battlesim;
 
-public class Battle {
+import java.util.ArrayList;
+import java.util.Collection;
+
+public class Battle implements RoundResultsPublisher {
 
 	private Side aSide;
 	private Side anotherSide;
+	private Collection<RoundResultsSubscriber> roundResutlsSubscribers = new ArrayList<RoundResultsSubscriber>();
 	
 	public Battle() {}
 	
@@ -11,12 +15,11 @@ public class Battle {
 		this.aSide = aCombatant;
 		this.anotherSide = anotherCombatant;
 	}
-	
-	
+		
 	public void simulate() {
 		while( shouldContinue() ) {
 			RoundResults roundResults = simulateRound();
-			System.out.println( roundResults );
+			publishRoundResults( roundResults );
 		}
 		
 		disaplySideThatIsRetreating();
@@ -48,6 +51,18 @@ public class Battle {
 		}
 		if( anotherSide.isRetreating() ) {
 			System.out.println( "After this round, " + anotherSide + " is retreating from battle" );
+		}
+	}
+
+	@Override
+	public void publishRoundResultsTo(RoundResultsSubscriber subscriber) {
+		roundResutlsSubscribers.add( subscriber );
+	}
+
+	@Override
+	public void publishRoundResults(RoundResults results) {
+		for( RoundResultsSubscriber roundResultsSubscriber : roundResutlsSubscribers ) {
+			roundResultsSubscriber.receiveRoundResults( results );
 		}
 	}
 	

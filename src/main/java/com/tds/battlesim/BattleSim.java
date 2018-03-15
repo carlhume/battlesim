@@ -18,8 +18,16 @@ public class BattleSim {
 		
 		Side anotherSide = new Side( "Second Side", 10000 );
 		Battle battle = new Battle( side, anotherSide );
+		battle.publishRoundResultsTo( new RoundResultsReporter() );
 		battleSim.simulate( battle );
 	}
 		
-	
+	private static class RoundResultsReporter implements RoundResultsSubscriber {
+
+		@Override
+		public void receiveRoundResults(RoundResults results) {
+			System.out.println( results );
+		}
+		
+	}
 }
