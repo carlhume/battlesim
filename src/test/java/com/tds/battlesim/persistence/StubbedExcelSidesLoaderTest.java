@@ -11,7 +11,7 @@ import org.junit.Test;
 import com.tds.battlesim.Side;
 import com.tds.battlesim.persistence.poistubs.WorkbookStub;
 
-public class ExcelSidesLoaderTest {
+public class StubbedExcelSidesLoaderTest {
 
 	@Test
 	public void testExcelSidesLoaderCanBeCreated() {
