@@ -2,6 +2,8 @@ package com.tds.battlesim.persistence;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -20,6 +22,17 @@ import com.tds.battlesim.Side;
 public class ExcelSidesLoader {
 
 	private static final Logger logger = LoggerFactory.getLogger( ExcelSidesLoader.class );
+	
+	public Collection<Side> loadFromUrl( URL url ) {
+		Collection<Side> sides = new ArrayList<Side>();
+		try {
+			File sidesFile = new File( url.toURI() );
+			sides = loadFromFile( sidesFile );
+		} catch (URISyntaxException e) {
+			logger.error( "Error loading sides from Excel", e );
+		}
+		return sides;
+	}
 	
 	@SuppressWarnings("resource")
 	public Collection<Side> loadFromFile( File file ) {

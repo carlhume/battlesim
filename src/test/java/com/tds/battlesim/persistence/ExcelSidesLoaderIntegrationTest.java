@@ -2,9 +2,7 @@ package com.tds.battlesim.persistence;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -29,9 +27,7 @@ public class ExcelSidesLoaderIntegrationTest {
 		loader = new ExcelSidesLoader();
 		URL url = ExcelSidesLoaderIntegrationTest.class.getResource( "/sides.xlsx" );
 		assertNotNull( "Could not find the test file.", url );
-		File sidesFile = new File( url.toURI() );
-		assertTrue( "The test file does not exist!", sidesFile.exists() );
-		Collection<Side> sides = loader.loadFromFile( sidesFile );
+		Collection<Side> sides = loader.loadFromUrl( url );
 		Iterator<Side> sideIterator = sides.iterator();
 		firstSide = sideIterator.next();
 		secondSide = sideIterator.next();
