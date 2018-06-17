@@ -13,9 +13,6 @@ import java.util.Iterator;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,7 +20,6 @@ import com.tds.battlesim.Side;
 
 public class ExcelSidesLoaderIntegrationTest {
 
-	private Workbook sidesWorkbook;
 	private ExcelSidesLoader loader;
 	private Side firstSide;
 	private Side secondSide;
@@ -35,16 +31,10 @@ public class ExcelSidesLoaderIntegrationTest {
 		assertNotNull( "Could not find the test file.", url );
 		File sidesFile = new File( url.toURI() );
 		assertTrue( "The test file does not exist!", sidesFile.exists() );
-		sidesWorkbook = WorkbookFactory.create( sidesFile );	
-		Collection<Side> sides = loader.loadFromWorkbook( sidesWorkbook );
+		Collection<Side> sides = loader.loadFromFile( sidesFile );
 		Iterator<Side> sideIterator = sides.iterator();
 		firstSide = sideIterator.next();
 		secondSide = sideIterator.next();
-	}
-	
-	@After
-	public void tearDown() throws IOException {
-		sidesWorkbook.close();
 	}
 	
 	@Test

@@ -24,6 +24,12 @@ dependencies {
 	compile "org.apache.poi:poi:3.17"
 	compile "org.apache.poi:poi-ooxml:3.17"
 
+	// This dependency is used for logging purposes
+	compile group: 'org.slf4j', name:'slf4j-api', version: '1.7.25'
+	compile group: 'org.slf4j', name:'slf4j-simple', version: '1.7.25'
+//    compile group: 'ch.qos.logback', name:'logback-classic', version: '1.0.9'
+//    compile group: 'ch.qos.logback', name:'logback-core', version: '1.0.9'
+
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation 'com.google.guava:guava:23.0'
 
