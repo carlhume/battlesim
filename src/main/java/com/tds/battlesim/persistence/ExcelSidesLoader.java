@@ -10,6 +10,7 @@ import java.util.Iterator;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -21,7 +22,9 @@ import com.tds.battlesim.Side;
 
 public class ExcelSidesLoader {
 
-	private static final String EXCEL_SHEET_NAME_SIDES = "Sides";
+	public static final String EXCEL_SHEET_NAME_SIDES = "Sides";	
+	public static final String COLUMN_NAME_NAME = "Name";
+	private static final int COLUMN_SIDE_NAME = 0;
 	private static final Logger logger = LoggerFactory.getLogger( ExcelSidesLoader.class );
 	
 	public Collection<Side> loadFromUrl( URL url ) {
@@ -76,17 +79,34 @@ public class ExcelSidesLoader {
 		return sheetDefiningSides;
 	}
 
-	private void loadSidesFromSheet( Collection<Side> sides, Sheet sidesDefinedInExcel ) {
-		Iterator<Row> rowIterator = sidesDefinedInExcel.rowIterator();		
-
-		// This method assumes that the worksheet has a properly formed header row
-		// TODO:  Add a test and safety code to ensure we are not throwing away an intended side definition
-		discardHeader( rowIterator );
+	public void loadSidesFromSheet( Collection<Side> sides, Sheet sidesDefinedInExcel ) {
+		
+		Iterator<Row> rowIterator = findStartOfSidesInSheet( sidesDefinedInExcel );
 		while( rowIterator.hasNext() ) {
 			sides.add( loadSideFromRow( rowIterator.next() ) );
 		}
 	}
 
+	private Iterator<Row> findStartOfSidesInSheet( Sheet sidesDefinedInExcel ) {		
+		Iterator<Row> rowIterator = sidesDefinedInExcel.rowIterator();		
+		Row possibleHeaderRow = sidesDefinedInExcel.getRow( sidesDefinedInExcel.getFirstRowNum() );
+		if( isHeader( possibleHeaderRow ) ) {
+			discardHeader( rowIterator );
+		}
+		return rowIterator;
+	}
+	
+	private boolean isHeader( Row possibleHeaderRow ) {
+		boolean isHeader = false;
+		if( possibleHeaderRow != null ) {
+			Cell possibleHeaderCell = possibleHeaderRow.getCell( COLUMN_SIDE_NAME );
+			if( possibleHeaderCell != null ) {
+				String contents = possibleHeaderCell.getStringCellValue();
+				isHeader = contents.equals( COLUMN_NAME_NAME );
+			}
+		}
+		return isHeader;
+	}
 	private void discardHeader(Iterator<Row> rowIterator) {
 		if( rowIterator.hasNext() ) {
 			rowIterator.next();
@@ -95,8 +115,7 @@ public class ExcelSidesLoader {
 	
 	public Side loadSideFromRow( Row rowDefiningSide ) {
 		Side side = new Side();
-		// TODO:  Replace Magic Number with Constant
-		side.setName( rowDefiningSide.getCell( 0 ).getStringCellValue() );
+		side.setName( rowDefiningSide.getCell( COLUMN_SIDE_NAME ).getStringCellValue() );
 		return side;
 	}
 	

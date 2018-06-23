@@ -2,6 +2,7 @@ package com.tds.battlesim.persistence.poistubs;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -20,6 +21,16 @@ import org.apache.poi.ss.usermodel.Row.MissingCellPolicy;
 
 public class WorkbookStub implements Workbook {
 
+	private HashMap<String, Sheet> sheets;	
+	
+	public WorkbookStub() {
+		sheets = new HashMap<String, Sheet>();
+	}
+	
+	public void addNamedSheet( String name, Sheet sheet ) {
+		sheets.put( name, sheet );
+	}
+	
 	@Override
 	public Iterator<Sheet> iterator() {
 		// TODO Auto-generated method stub
@@ -124,8 +135,7 @@ public class WorkbookStub implements Workbook {
 
 	@Override
 	public Sheet getSheet(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return sheets.get( name );
 	}
 
 	@Override
