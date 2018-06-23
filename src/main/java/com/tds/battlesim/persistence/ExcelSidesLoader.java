@@ -21,6 +21,7 @@ import com.tds.battlesim.Side;
 
 public class ExcelSidesLoader {
 
+	private static final String EXCEL_SHEET_NAME_SIDES = "Sides";
 	private static final Logger logger = LoggerFactory.getLogger( ExcelSidesLoader.class );
 	
 	public Collection<Side> loadFromUrl( URL url ) {
@@ -58,18 +59,24 @@ public class ExcelSidesLoader {
 		Collection<Side> sides = new ArrayList<Side>();
 		Sheet sidesDefinedInExcel = findSheetDefiningSides( workbook );
 		loadSidesFromSheet( sides, sidesDefinedInExcel );
+		loadTroopsForSideFromWorkbook( sides, workbook );
 		return sides;
 	}
 
+	private void loadTroopsForSideFromWorkbook( Collection<Side> sides, Workbook workbook ) {
+		ExcelTroopsLoader troopLoader = new ExcelTroopsLoader();
+		troopLoader.loadTroopsForSidesFromWorkbook( sides, workbook );		
+	}
+	
 	private Sheet findSheetDefiningSides(Workbook workbook) {
-		Sheet sheetDefiningSides = workbook.getSheet( "Sides" );
+		Sheet sheetDefiningSides = workbook.getSheet( EXCEL_SHEET_NAME_SIDES );
 		if( sheetDefiningSides == null ) {
 			sheetDefiningSides = new EmptySheet();
 		}
 		return sheetDefiningSides;
 	}
 
-	private void loadSidesFromSheet(Collection<Side> sides, Sheet sidesDefinedInExcel) {
+	private void loadSidesFromSheet( Collection<Side> sides, Sheet sidesDefinedInExcel ) {
 		Iterator<Row> rowIterator = sidesDefinedInExcel.rowIterator();		
 
 		// This method assumes that the worksheet has a properly formed header row
@@ -88,6 +95,7 @@ public class ExcelSidesLoader {
 	
 	public Side loadSideFromRow( Row rowDefiningSide ) {
 		Side side = new Side();
+		// TODO:  Replace Magic Number with Constant
 		side.setName( rowDefiningSide.getCell( 0 ).getStringCellValue() );
 		return side;
 	}

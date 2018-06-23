@@ -2,14 +2,10 @@ package com.tds.battlesim;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Iterator;
 
-import org.apache.poi.EncryptedDocumentException;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
+import com.tds.battlesim.persistence.ExcelSidesLoader;
 
 public class BattleSim {
 
@@ -17,30 +13,18 @@ public class BattleSim {
 		battle.simulate();
 	}
 	
-	public static void main( String [] args ) throws EncryptedDocumentException, InvalidFormatException, IOException {
-		Workbook workbook = WorkbookFactory.create(new File( args[0] ) );
-				
-		Sheet sides = workbook.getSheet( "Sides" );
-		Iterator<Row> rowIterator = sides.rowIterator();
-        
-		BattleSim battleSim = new BattleSim();
-		Side side = new Side();
-        Row row = rowIterator.next();
-        row = rowIterator.next();
-		side.setName( row.getCell( 0 ).getStringCellValue() );		
-		Troops troopsForSide = new Troops();
-		troopsForSide.setCount( 1000 );
-		troopsForSide.setDamageDealtPerTroop( 10 );
-		troopsForSide.setHitPointsPerTroop( 10 );
-		side.addTroops( troopsForSide );
+	public static void main( String [] args ) throws IOException {
+		ExcelSidesLoader excelSidesLoader = new ExcelSidesLoader();
+		Collection<Side> sides = excelSidesLoader.loadFromFile( new File( args[0] ) );
+		Iterator<Side> sideIterator = sides.iterator();
 		
-        row = rowIterator.next();
-		Side anotherSide = new Side( row.getCell( 0 ).getStringCellValue(), 10000 );
+		BattleSim battleSim = new BattleSim();
+		Side side = sideIterator.next();
+		Side anotherSide = sideIterator.next(); 
+		
 		Battle battle = new Battle( side, anotherSide );
 		battle.publishRoundResultsTo( new RoundResultsReporter() );
 		battleSim.simulate( battle );
-		
-		workbook.close();
 	}
 		
 	private static class RoundResultsReporter implements BattleResultsSubscriber {

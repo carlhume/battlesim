@@ -2,6 +2,7 @@ package com.tds.battlesim.persistence;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -43,4 +44,23 @@ public class ExcelSidesLoaderIntegrationTest {
 		assertEquals( "The name of the side should have been loaded", "Second Test Side", secondSide.getName() );
 	}
 	
+	@Test
+	public void testThatTroopsWereLoadedForFirstSide() {
+		assertTrue( "No troops were loaded for the first side", firstSide.size() > 0 );
+	}
+
+	@Test
+	public void testThatTroopsWereLoadedForSecondSide() {
+		assertTrue( "No troops were loaded for the second side", secondSide.size() > 0 );
+	}
+	
+	@Test
+	public void testThatDamageDealtPerTroopWasLoadedForFirstSide() {
+		assertEquals( "Troop Damage was not loaded for first side", 10000, firstSide.getAttackValue(), Double.MIN_VALUE );
+	}
+
+	@Test
+	public void testThatDamageDealtPerTroopWasLoadedForSecondSide() {
+		assertEquals( "Troop Damage was not loaded for second side", 10000, secondSide.getAttackValue(), Double.MIN_VALUE );
+	}
 }

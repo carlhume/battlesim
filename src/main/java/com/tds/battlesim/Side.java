@@ -36,6 +36,10 @@ public class Side {
 		troops.add( troopsToAdd );
 	}
 	
+	public void addTroops( Collection<Troops> troopsToAdd ) {
+		troops.addAll( troopsToAdd );
+	}
+	
 	public boolean isRetreating() {
 		return size() <= troopsThatCanBeLostBeforeSideWantsToRetreat();
 	}
