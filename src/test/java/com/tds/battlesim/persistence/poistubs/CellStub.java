@@ -122,8 +122,7 @@ public class CellStub implements Cell {
 
 	@Override
 	public double getNumericCellValue() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Double.valueOf( contents );
 	}
 
 	@Override

@@ -71,7 +71,7 @@ public class ExcelSidesLoader {
 		troopLoader.loadTroopsForSidesFromWorkbook( sides, workbook );		
 	}
 	
-	private Sheet findSheetDefiningSides(Workbook workbook) {
+	private Sheet findSheetDefiningSides( Workbook workbook ) {
 		Sheet sheetDefiningSides = workbook.getSheet( EXCEL_SHEET_NAME_SIDES );
 		if( sheetDefiningSides == null ) {
 			sheetDefiningSides = new EmptySheet();
@@ -107,6 +107,7 @@ public class ExcelSidesLoader {
 		}
 		return isHeader;
 	}
+
 	private void discardHeader(Iterator<Row> rowIterator) {
 		if( rowIterator.hasNext() ) {
 			rowIterator.next();

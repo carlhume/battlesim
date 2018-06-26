@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -14,7 +15,9 @@ import com.tds.battlesim.Troops;
 
 public class ExcelTroopsLoader {
 
-	private static final String EXCEL_SHEET_NAME_TROOPS = "Troops";
+	public static final String EXCEL_SHEET_NAME_TROOPS = "Troops";
+	public static final String COLUMN_NAME_NAME = "Name";
+	private static final int COLUMN_TROOPS_NAME = 0;
 
 	public void loadTroopsForSidesFromWorkbook( Collection<Side> sides, Workbook workbook ) {
 		Sheet troopsDefinedInExcel = findSheetDefiningTroops( workbook );
@@ -32,11 +35,7 @@ public class ExcelTroopsLoader {
 
 	private Collection<Row> findRowsWithTroopsForSideFromSheet( Side side, Sheet troopsDefinedInExcel ) {		
 		Collection<Row> rowsWithTroops = new LinkedList<Row>();
-		Iterator<Row> rowIterator = troopsDefinedInExcel.rowIterator();
-
-		// This method assumes that the worksheet has a properly formed header row
-		// TODO:  Add a test and safety code to ensure we are not throwing away an intended side definition
-		discardHeader( rowIterator );
+		Iterator<Row> rowIterator = findStartOfTroopsInSheet( troopsDefinedInExcel );
 		while( rowIterator.hasNext() ) {
 			Row row = rowIterator.next();
 			if( rowIsForSide( row, side ) ) {
@@ -44,6 +43,34 @@ public class ExcelTroopsLoader {
 			}
 		}
 		return rowsWithTroops;
+	}
+	
+	// TODO: Remove duplication with ExcelSidesLoader
+	private Iterator<Row> findStartOfTroopsInSheet( Sheet troopsDefinedInExcel ) {		
+		Iterator<Row> rowIterator = troopsDefinedInExcel.rowIterator();		
+		Row possibleHeaderRow = troopsDefinedInExcel.getRow( troopsDefinedInExcel.getFirstRowNum() );
+		if( isHeader( possibleHeaderRow ) ) {
+			discardHeader( rowIterator );
+		}
+		return rowIterator;
+	}
+	
+	private boolean isHeader( Row possibleHeaderRow ) {
+		boolean isHeader = false;
+		if( possibleHeaderRow != null ) {
+			Cell possibleHeaderCell = possibleHeaderRow.getCell( COLUMN_TROOPS_NAME );
+			if( possibleHeaderCell != null ) {
+				String contents = possibleHeaderCell.getStringCellValue();
+				isHeader = contents.equals( COLUMN_NAME_NAME );
+			}
+		}
+		return isHeader;
+	}
+
+	private void discardHeader(Iterator<Row> rowIterator) {
+		if( rowIterator.hasNext() ) {
+			rowIterator.next();
+		}
 	}
 	
 	private boolean rowIsForSide( Row row, Side side ) {
@@ -64,16 +91,11 @@ public class ExcelTroopsLoader {
 		troops.setName( rowDefiningTroops.getCell( 0 ).getStringCellValue() );
 		troops.setCount( (int)rowDefiningTroops.getCell( 2 ).getNumericCellValue() );
 		troops.setDamageDealtPerTroop( (int)rowDefiningTroops.getCell( 3 ).getNumericCellValue() );
+		troops.setHitPointsPerTroop( (int)rowDefiningTroops.getCell( 4 ).getNumericCellValue() );
 		
 		return troops;
 	}
 
-	private void discardHeader(Iterator<Row> rowIterator) {
-		if( rowIterator.hasNext() ) {
-			rowIterator.next();
-		}
-	}
-	
 	private Sheet findSheetDefiningTroops( Workbook workbook ) {
 		Sheet sheetDefiningSides = workbook.getSheet( EXCEL_SHEET_NAME_TROOPS );
 		if( sheetDefiningSides == null ) {
